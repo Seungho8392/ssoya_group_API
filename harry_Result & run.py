@@ -5,6 +5,15 @@ from Map import get_map
 from harry_Weather import get_weather
 from customtkinter import CTkImage
 import os
+import sys
+
+# 이미지 경로 처리
+if getattr(sys, 'frozen', False):
+    # PyInstaller로 패키징된 경우
+    app_path = sys._MEIPASS  # 실행 파일의 임시 폴더 경로
+else:
+    # 개발 중인 경우
+    app_path = os.path.dirname(__file__)
 
 # 다국어 폰트 설정
 def get_cut_font(size=14):
@@ -17,12 +26,12 @@ def get_cut_font(size=14):
     return ctk.CTkFont(size=size)
 
 weather_icons = {
-    "맑음": "images/sunny.png",
-    "흐림": "images/blur.png",
-    "구름 조금": "images/little_cloud.png",
-    "구름 많음" : "images/many_cloud.png",
-    "비": "images/rain.png",
-    "눈": "images/snow.png"
+    "맑음": "sunny.png",
+    "흐림": "blur.png",
+    "구름 조금": "little_cloud.png",
+    "구름 많음" : "many_cloud.png",
+    "비": "rain.png",
+    "눈": "snow.png"
 }
 
 # 기본 설정
@@ -39,6 +48,9 @@ input_frame.pack(pady=20)
 
 entry = ctk.CTkEntry(input_frame, placeholder_text="분당구 삼평동", font=get_cut_font(size=14))  # 수정됨
 entry.pack(side="left", padx=5)
+
+# 이미지 경로
+image_folder = os.path.join(app_path, "images")  # images 폴더 경로
 
 # 아이콘 버튼
 def 조회():
@@ -57,12 +69,13 @@ def 조회():
                 weather = weather_info["weather"]
 
                 # 날씨 아이콘 설정
-                icon_img_name = weather_icons.get(weather, "default.png")
+                icon_img_name = os.path.join(image_folder, weather_icons.get(weather, "default.png"))
                 if os.path.exists(icon_img_name):
                     icon_image = Image.open(icon_img_name).resize((200, 200))
                     icon_ctk_image = CTkImage(light_image=icon_image, size=(200, 200))  # CTkImage로 설정
                     icon_label.configure(image=icon_ctk_image, text="")
                     icon_label.image = icon_ctk_image  # CTkImage 객체를 저장
+
                 else:
                     icon_label.configure(image=None, text=weather)
 
