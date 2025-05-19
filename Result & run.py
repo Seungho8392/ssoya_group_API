@@ -1,4 +1,4 @@
-from Map import get_map
+from Finish_Map import get_map
 from Weather import get_weather
 
 def main():
