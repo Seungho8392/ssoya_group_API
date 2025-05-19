@@ -58,7 +58,7 @@ def 조회():
     if not address:
         label_result.configure(text="⚠️ 주소를 입력해주세요.")
         return
-
+    label_info.pack_forget()
     try:
         lat, lon, real_address = get_map(address)
 
@@ -100,12 +100,16 @@ else:
     search_btn = ctk.CTkButton(input_frame, text="🔍 검색", command=조회)
     search_btn.pack(side="left")
 
+# 초기 안내 문구 라벨 (결과 라벨 위쪽에)
+label_info = ctk.CTkLabel(app, text="원하는 지역을 입력해 주세요.\n(예: 서울시, 광진구, 구의동)", font=get_cut_font(size=14))
+label_info.pack(pady=(150))  # 위쪽 여백 넉넉히
+
 # 날씨 아이콘 라벨
 icon_label = ctk.CTkLabel(app, text="", font=get_cut_font(size=16))  # 수정됨
 icon_label.pack(pady=10)
 
 # 결과 텍스트 라벨
-label_result = ctk.CTkLabel(app, text="원하는 지역을 입력해 주세요. \n(예: 성남시, 분당구, 삼평동)", font=get_cut_font(size=14))  # 수정됨
-label_result.pack(pady=110)
+label_result = ctk.CTkLabel(app, text="", font=get_cut_font(size=14))  # 수정됨
+label_result.pack(pady=10)
 
 app.mainloop()
