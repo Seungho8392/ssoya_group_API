@@ -1,8 +1,8 @@
 # main_gui.py
 import customtkinter as ctk
 from PIL import Image, ImageTk
-from Map import get_map
-from harry_Weather import get_weather
+from Finish_Map import get_map
+from Finish_Weather import get_weather
 from customtkinter import CTkImage
 import os
 import sys

@@ -7,7 +7,7 @@ def get_map(address):
     url = f"https://nominatim.openstreetmap.org/search?q={address}&format=json&addressdetails=1"
 
     headers = {
-        "User-Agent": "YourAppName/1.0 (your-email@example.com)"  # 이메일을 User-Agent에 추가
+        "User-Agent": "YourAppName/1.0 (ssoyagroup@test.com)"  # 이메일을 User-Agent에 추가
     }
 
     # API 요청 보내기

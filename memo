@@ -1,5 +1,5 @@
 윈도우에서의 이미지 및 라이브러리 포함 pyinstaller
-pyinstaller --onefile --windowed --hidden-import=PIL --hidden-import=requests --add-data "images;images" main.py
+pyinstaller --onefile --windowed --hidden-import=PIL --hidden-import=requests --add-data "images;images" Finish_Result & run.py
 
 맥/리눅스에서의 이미지 및 라이브러리 포함 pyinstaller
-pyinstaller --onefile --windowed --hidden-import=PIL --hidden-import=requests --add-data "images:images" main_gui.py
+pyinstaller --onefile --windowed --hidden-import=PIL --hidden-import=requests --add-data "images:images" Finish_Result & run.py
