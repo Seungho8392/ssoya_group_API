@@ -105,7 +105,7 @@ icon_label = ctk.CTkLabel(app, text="", font=get_cut_font(size=16))  # 수정됨
 icon_label.pack(pady=10)
 
 # 결과 텍스트 라벨
-label_result = ctk.CTkLabel(app, text="", font=get_cut_font(size=14))  # 수정됨
-label_result.pack(pady=10)
+label_result = ctk.CTkLabel(app, text="원하는 지역을 입력해 주세요. \n(예: 성남시, 분당구, 삼평동)", font=get_cut_font(size=14))  # 수정됨
+label_result.pack(pady=110)
 
 app.mainloop()
