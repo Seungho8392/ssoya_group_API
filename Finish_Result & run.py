@@ -39,7 +39,7 @@ ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
 app = ctk.CTk()
-app.title("🌤 날씨 API 정보")
+app.title("🌤 날씨 API 정보11")
 app.geometry("500x500")
 
 # 주소 입력 프레임
