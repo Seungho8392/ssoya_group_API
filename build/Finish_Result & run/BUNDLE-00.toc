@@ -1,3 +1,4 @@
 ([('Finish_Result & run',
-   '/Users/harrychang/Project1/ssoya_group_API/dist/Finish_Result & run',
+   '/Users/woody.lee/PycharmProjects_test/ssoya_group_API/dist/Finish_Result & '
+   'run',
    'EXECUTABLE')],)

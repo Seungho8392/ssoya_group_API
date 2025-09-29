@@ -68,7 +68,7 @@ def 조회():
                 temp = weather_info["temperature"]
                 weather = weather_info["weather"]
 
-                # 날씨 아이콘 설정
+                # 날씨 아이콘 설정x
                 icon_img_name = os.path.join(image_folder, weather_icons.get(weather, "default.png"))
                 if os.path.exists(icon_img_name):
                     icon_image = Image.open(icon_img_name).resize((200, 200))
