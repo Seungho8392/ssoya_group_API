@@ -116,7 +116,7 @@ def 조회():
         label_result.configure(text=f"⚠️ 오류 발생: {str(e)}")
         icon_label.configure(image=None, text="")
 
-
+# 신규
 # 2. 현재 위치 조회 함수 (새로 추가됨)
 def 현재위치_조회():
     """IP 기반으로 현재 위치의 날씨를 조회합니다."""
