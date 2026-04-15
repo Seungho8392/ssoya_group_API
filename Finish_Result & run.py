@@ -27,19 +27,19 @@ def get_cut_font(size=14):
 
 weather_icons = {
     "맑음": "sunny.png",
-    "흐림": "blur.png",
     "구름 조금": "little_cloud.png",
-    "구름 많음" : "many_cloud.png",
+    "흐림" : "blur.png",
     "비": "rain.png",
     "눈": "snow.png"
 }
 
 # 기본 설정
-ctk.set_appearance_mode("dark")
+ctk.set_appearance_mode("light")
 ctk.set_default_color_theme("blue")
 
 app = ctk.CTk()
-app.title("🌤 날씨 API 정보11")
+app.configure(fg_color="#FFFFFF")
+app.title("🌤 날씨 API 정보")
 app.geometry("500x500")
 
 # 주소 입력 프레임
@@ -72,7 +72,7 @@ def 조회():
                 icon_img_name = os.path.join(image_folder, weather_icons.get(weather, "default.png"))
                 if os.path.exists(icon_img_name):
                     icon_image = Image.open(icon_img_name).resize((200, 200))
-                    icon_ctk_image = CTkImage(light_image=icon_image, size=(200, 200))  # CTkImage로 설정
+                    icon_ctk_image = CTkImage(light_image=icon_image, size=(300, 300))  # CTkImage로 설정
                     icon_label.configure(image=icon_ctk_image, text="")
                     icon_label.image = icon_ctk_image  # CTkImage 객체를 저장
 

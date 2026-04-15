@@ -17,9 +17,7 @@ def classify_weather(condition_text):
         return "맑음"
     elif any(keyword in condition_text for keyword in ["cloud", "overcast"]):
         return "구름 조금"
-    elif any(keyword in condition_text for keyword in ["thunder", "storm"]):
-        return "구름 많음"
-    elif any(keyword in condition_text for keyword in ["mist", "fog", "haze"]):
+    elif any(keyword in condition_text for keyword in ["thunder", "storm", "mist", "fog", "haze"]):
         return "흐림"
     else:
         return condition_text  # 그대로 출력 (디버깅용)
