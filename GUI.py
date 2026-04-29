@@ -2,11 +2,8 @@ import customtkinter as ctk
 from PIL import Image
 import os
 from customtkinter import CTkImage
-
-# 1. 외부 모듈 및 설정값 가져오기
 from Finish_Map import get_map
 from Finish_Weather import get_weather
-# config.py에서 미리 만든 것들을 몽땅 가져옵니다.
 from config import APP_TITLE, WINDOW_SIZE, BG_COLOR, TEXT_COLOR, \
     INFO_TEXT_COLOR, WEATHER_ICONS, IMAGE_FOLDER, get_cut_font
 
