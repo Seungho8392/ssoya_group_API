@@ -5,7 +5,7 @@ a = Analysis(
     ['Finish_Result & run.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[('images', 'images')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
