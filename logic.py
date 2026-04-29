@@ -27,12 +27,16 @@ class WeatherController:
 
     def 실행_조회(self, address):
         """데이터 처리만 담당하고 결과 데이터 세트를 반환"""
-        if not address: return None
+        if not address:
+            return {"text": "📍 지역을 입력해 주세요!"}
 
         try:
             # 1. 위치 및 날씨 데이터 가져오기
             lat, lon, real_address = get_map(address)
-            if not (lat and lon): return None
+
+            # 👈 여기를 수정! (None 대신 메시지 반환)
+            if not (lat and lon):
+                return {"text": "❌ 해당 주소의 검색 결과가 없습니다.\n다른 주소로 검색해 보세요."}
 
             weather_info = get_weather(lat, lon)
             temp = weather_info["temperature"]

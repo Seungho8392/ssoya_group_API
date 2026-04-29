@@ -64,20 +64,30 @@ class WeatherAppUI(ctk.CTk):
         self.label_result.pack(pady=(15, 20))
 
     def 화면_업데이트(self):
-        """버튼 클릭 시 실행: 로직에서 데이터(텍스트, 이미지)를 받아와서 직접 그림"""
-        # 1. 로직에게 주소를 주고 결과 데이터를 받아옴
         data = self.controller.실행_조회(self.entry.get())
         if not data: return
 
-        # 2. 안내 문구 숨기기
         self.label_info.pack_forget()
-        # 3. 결과에 따른 화면 업데이트
+
         if "error" in data:
             self.label_result.configure(text=f"⚠️ 오류: {data['error']}")
+            self.icon_label.configure(image="")
+            self.icon_label.image = None
         else:
-            # 이미지 업데이트 (로직에서 생성된 이미지 객체 사용)
-            if data["image"]:
-                self.icon_label.configure(image=data["image"], text="")
-                self.icon_label.image = data["image"]
             # 텍스트 업데이트
-            self.label_result.configure(text=data["text"])
+            self.label_result.configure(text=data.get("text", ""))
+
+            if data.get("image"):
+                # 성공 시: 원래 위치에 배치
+                self.icon_label.configure(image=data["image"])
+                self.icon_label.image = data["image"]
+                # 일반적인 패킹 (아이콘 아래에 붙음)
+                self.label_result.pack(pady=(15, 20), expand=False)
+            else:
+                # 실패 시: 아이콘 지우고 텍스트를 물리적으로 중앙까지 밀기
+                self.icon_label.configure(image="")
+                self.icon_label.image = None
+
+                # pady=(위, 아래) -> 위쪽 여백을 150~200 정도로 주면 중앙에 옵니다.
+                # 창의 전체 높이에 맞춰서 이 숫자를 살짝 조절해 보세요.
+                self.label_result.pack(pady=(180, 0), anchor="center")
