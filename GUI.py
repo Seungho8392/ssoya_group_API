@@ -3,8 +3,6 @@ from PIL import Image
 import os
 import sys
 from customtkinter import CTkImage
-
-# 👈 여기서 바로 필요한 기능들을 임포트합니다!
 from Finish_Map import get_map
 from Finish_Weather import get_weather
 
