@@ -1,79 +1,83 @@
 import customtkinter as ctk
-from PIL import Image
-import os
-from customtkinter import CTkImage
-from Finish_Map import get_map
-from Finish_Weather import get_weather
-from config import APP_TITLE, WINDOW_SIZE, BG_COLOR, TEXT_COLOR, \
-    INFO_TEXT_COLOR, WEATHER_ICONS, IMAGE_FOLDER, get_cut_font
 
 
 class WeatherAppUI(ctk.CTk):
-    def __init__(self):
+    def __init__(self, controller_class):
         super().__init__()
+        # 1. 로직 컨트롤러 연결 (나 자신을 조종권으로 넘겨줌)
+        self.controller = controller_class(self)
 
-        # 2. config.py에 있는 값으로 앱 설정
-        ctk.set_appearance_mode("light")
-        self.title(APP_TITLE)
-        self.geometry(WINDOW_SIZE)
-        self.configure(fg_color=BG_COLOR)
+        # 2. 로직에서 설정값 받아오기
+        settings = self.controller.get_initial_settings()
 
-        # 3. 경로와 아이콘 설정도 config에서 가져온 값 사용
-        self.image_folder = IMAGE_FOLDER
-        self.weather_icons = WEATHER_ICONS
+        # 3. 창 기본 설정
+        self.title(settings["title"])
+        self.geometry(settings["geometry"])
+        self.configure(fg_color=settings["bg_color"])
 
-        self._create_widgets()
+        # 4. 위젯 그리기
+        self._create_widgets(settings)
 
-    def _create_widgets(self):
+    def _create_widgets(self, s):
+        # [입력 영역] 프레임 생성
         self.input_frame = ctk.CTkFrame(self, fg_color="transparent")
         self.input_frame.pack(pady=20)
 
-        self.entry = ctk.CTkEntry(self.input_frame, placeholder_text="분당구 삼평동", text_color=TEXT_COLOR)
+        # 주소 입력창
+        self.entry = ctk.CTkEntry(
+            self.input_frame,
+            placeholder_text="분당구 삼평동",
+            text_color="#FFFFFF"
+        )
         self.entry.pack(side="left", padx=5)
 
-        self.search_btn = ctk.CTkButton(self.input_frame, text="🔍 검색", command=self.실행_조회)
+        # 검색 버튼 (클릭 시 아래의 '화면_업데이트' 함수 실행)
+        self.search_btn = ctk.CTkButton(
+            self.input_frame,
+            text="🔍 검색",
+            command=self.화면_업데이트
+        )
         self.search_btn.pack(side="left")
 
+        # [출력 영역] 안내 라벨
         self.label_info = ctk.CTkLabel(
             self,
-            text="원하는 지역을 입력해 주세요.\n(예: 성남시, 분당구, 삼평동)",
-            text_color=INFO_TEXT_COLOR,
-            font=get_cut_font(16)  # config에서 가져온 함수 사용
+            text=s["info_text"],
+            text_color=s["info_color"],
+            font=s["info_font"]
         )
         self.label_info.pack(pady=(150, 0))
 
+        # 날씨 아이콘 표시 라벨
         self.icon_label = ctk.CTkLabel(self, text="")
-        self.icon_label.pack(pady=10)
+        self.icon_label.pack(pady=(10, 5))
 
-        self.label_result = ctk.CTkLabel(self, text="", text_color=TEXT_COLOR, font=get_cut_font(14))
-        self.label_result.pack(pady=10)
+        # 날씨 상세 정보 표시 라벨
+        self.label_result = ctk.CTkLabel(
+            self,
+            text="",
+            text_color=s["text_color"],
+            font=s["result_font"],
+            wraplength = 450,
+            justify="center"
+        )
+        self.label_result.pack(pady=(15, 20))
 
-    def 실행_조회(self):
-        address = self.entry.get()
-        if not address: return
+    def 화면_업데이트(self):
+        """버튼 클릭 시 실행: 로직에서 데이터(텍스트, 이미지)를 받아와서 직접 그림"""
+        # 1. 로직에게 주소를 주고 결과 데이터를 받아옴
+        data = self.controller.실행_조회(self.entry.get())
+        if not data: return
 
+        # 2. 안내 문구 숨기기
         self.label_info.pack_forget()
-
-        try:
-            lat, lon, real_address = get_map(address)
-
-            if lat and lon:
-                weather_info = get_weather(lat, lon)
-                temp = weather_info["temperature"]
-                weather = weather_info["weather"]
-
-                # config의 WEATHER_ICONS를 사용하여 아이콘 찾기
-                icon_name = self.weather_icons.get(weather, self.weather_icons["기본"])
-                icon_path = os.path.join(self.image_folder, icon_name)
-
-                if os.path.exists(icon_path):
-                    img = Image.open(icon_path).resize((200, 200))
-                    ctk_img = CTkImage(light_image=img, size=(300, 300))
-                    self.icon_label.configure(image=ctk_img, text="")
-                    self.icon_label.image = ctk_img
-
-                self.label_result.configure(
-                    text=f"📍 {real_address}\n\n 🌡️ 온도 : {temp}°C\n\n🌤️ 날씨 : {weather}"
-                )
-        except Exception as e:
-            self.label_result.configure(text=f"⚠️ 오류: {str(e)}")
+        # 3. 결과에 따른 화면 업데이트
+        if "error" in data:
+            self.label_result.configure(text=f"⚠️ 오류: {data['error']}")
+        else:
+            # 이미지 업데이트 (로직에서 생성된 이미지 객체 사용)
+            if data["image"]:
+                self.icon_label.configure(image=data["image"], text="")
+                self.icon_label.image = data["image"]
+            # 텍스트 업데이트
+            self.label_result.configure(text=data["text"])
