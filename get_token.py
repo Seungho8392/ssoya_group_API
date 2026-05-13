@@ -4,7 +4,7 @@ import json
 # 1. 정보 설정 (본인의 REST API 키를 꼭 넣어주세요!)
 rest_api_key = "32da76349d1c1fe08001a6f3fd317ed1"
 redirect_uri = "http://localhost"
-authorize_code = "페이지 링크 code 입력"
+authorize_code = "HeJ26JH0NlKSqJL25gBtxfq6sRQLWLWMOjOej1x14bRuYfTFRyhptQAAAAQKFxAvAAABnh-YXDJtZc76WqiBKA"
 
 # 2. 카카오 서버에 토큰 요청
 url = "https://kauth.kakao.com/oauth/token"

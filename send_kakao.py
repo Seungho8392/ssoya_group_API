@@ -1,5 +1,6 @@
 import requests
 import json
+import sys
 import os
 from datetime import datetime, timedelta, timezone
 from Finish_Map import get_map
@@ -7,6 +8,16 @@ from Finish_Weather import get_weather
 
 # 설정값
 REST_API_KEY = "32da76349d1c1fe08001a6f3fd317ed1"
+
+# [수정] PyInstaller 빌드 시 파일 경로를 안전하게 가져오는 함수
+def get_resource_path(relative_path):
+    """ 실행 파일 환경에서도 올바른 파일 경로를 반환 """
+    if hasattr(sys, '_MEIPASS'):
+        # PyInstaller가 파일을 임시 폴더에 풀었을 때의 경로
+        return os.path.join(sys._MEIPASS, relative_path)
+    # 일반 파이썬 실행 환경일 때의 경로
+    return os.path.join(os.path.abspath("."), relative_path)
+
 TOKEN_FILE = "kakao_token.json"
 
 
